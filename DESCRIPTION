@@ -1,0 +1,16 @@
+Package: HeckmanStan
+Type: Package
+Title: Heckman-selection models based on Bayesian analysis
+Version: 0.1.0
+Author: c(
+    person("Heeju", "Lim", email = "heeju.lim@uconn.edu", role = "aut" ),
+    person("Victor", "E. Lachos", email = "", role = "aut"),
+	person("Victor", "H. Lachos", email = "", role = c("cre","aut")))
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: We explore these selection models using a Bayesian approach facilitated by the Stan software. Our objective is to compare the performance of the normal, Student’s-t and contaminated normal, aiming to address the complexities introduced by non-standard error distributions.
+License: 
+Encoding: UTF-8
+LazyData: true
+Repository: CRAN
+Date/Publication: 2024-09-21 07:30:06 UTC
+RoxygenNote: 7.3.2
