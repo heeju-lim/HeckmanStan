@@ -17,20 +17,22 @@ knitr::opts_chunk$set(
 
 # HeckmanStan
 
-[![CRAN_Status_Badge]()]()
+<!--[![CRAN_Status_Badge]()]()-->
 
 
-The goal of skewlmm is to fit skew robust linear mixed models, using scale mixture of skew-normal linear mixed models with possible within-subject dependence structure, using an EM-type algorithm. In addition, some tools for model adequacy evaluation are available.
+The Heckman selection model is widely employed in econometric analysis and other social sciences, to address sample selection issues in data modeling. Its fundamental assumption hinges on the normality of error terms in both the outcome and the sample selection equations.
 
-For more information about the model formulation and estimation, please see
-Schumacher, F. L., Lachos, V. H., and Matos, L. A. (2021). Scale mixture of skew‐normal linear mixed models with within‐subject serial dependence. *Statistics in Medicine*. DOI: [10.1002/sim.8870](https://doi.org/10.1002/sim.8870).
+In this work, we explore these selection models using a Bayesian approach facilitated by the Stan software. Our objective is to compare the performance of the normal, Student’s-t and contaminated normal, aiming to address the complexities introduced by non-standard error distributions. 
+
+<!--For more information about the model formulation and estimation, please see
+Schumacher, F. L., Lachos, V. H., and Matos, L. A. (2021). Scale mixture of skew‐normal linear mixed models with within‐subject serial dependence. *Statistics in Medicine*. DOI: [10.1002/sim.8870](https://doi.org/10.1002/sim.8870).-->
 
 ## Installation
 
 <!-- You can install the released version of lmmsmsn from [CRAN](https://CRAN.R-project.org) with: -->
 
 
-You can install skewlmm from GitHub with:
+You can install HeckmanStan from GitHub with:
 
 ```r
 remotes::install_github("heeju-lim/HeckmanStan")
@@ -42,7 +44,7 @@ install.packages("HeckmanStan")
 
 ## Example
 
-This is a basic example which shows you how to fit the Heckman Selection model using bayesian approach:
+This is a basic example which shows you how to fit the Heckman Stan Model when data is generated from the normal distribution and fit the Heckmans Stan model using the contaminated normal distribution. 
 
 ```{r example1, out.width = '70%', fig.align = "center"}
 library(HeckmanStan)
@@ -59,7 +61,7 @@ data<-geraHeckman(x,w,beta,gama,sigma2,rho,nu,type=type)
 y<-data$y
 cc<-data$cc
 # Fit Heckman Normal Stan model
-fit.n_stan <- HeckmanStan(y, x, w, cc, family="Normal", thin = 5, chains = 1, iter = 1000, warmup = 100)
+fit.n_stan <- HeckmanStan(y, x, w, cc, family="CN", thin = 5, chains = 1, iter = 1000, warmup = 100)
 qoi=c("beta","gamma","sigma_e","sigma2", "rho","EAIC","EBIC")
 print(fit.n_stan[[1]],par=qoi)
 print(fit.n_stan[[2]])
