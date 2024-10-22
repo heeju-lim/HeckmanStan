@@ -1,0 +1,74 @@
+---
+output: github_document
+---
+
+<!--  README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%",
+  fig.width=6, 
+  fig.height=4
+)
+```
+
+# HeckmanStan
+
+[![CRAN_Status_Badge]()]()
+
+
+The goal of skewlmm is to fit skew robust linear mixed models, using scale mixture of skew-normal linear mixed models with possible within-subject dependence structure, using an EM-type algorithm. In addition, some tools for model adequacy evaluation are available.
+
+For more information about the model formulation and estimation, please see
+Schumacher, F. L., Lachos, V. H., and Matos, L. A. (2021). Scale mixture of skew‐normal linear mixed models with within‐subject serial dependence. *Statistics in Medicine*. DOI: [10.1002/sim.8870](https://doi.org/10.1002/sim.8870).
+
+## Installation
+
+<!-- You can install the released version of lmmsmsn from [CRAN](https://CRAN.R-project.org) with: -->
+
+
+You can install skewlmm from GitHub with:
+
+```r
+remotes::install_github("heeju-lim/HeckmanStan")
+```
+Or you can install the released version of skewlmm from [CRAN](https://CRAN.R-project.org) with:
+```r
+install.packages("HeckmanStan")
+```
+
+## Example
+
+This is a basic example which shows you how to fit the Heckman Selection model using bayesian approach:
+
+```{r example1, out.width = '70%', fig.align = "center"}
+library(HeckmanStan)
+n<- 100
+w<- cbind(1,rnorm(n),rnorm(n))
+x<- cbind(w[,1:2])
+type="CN"
+sigma2<- 1
+rho<-0.7
+beta<- c(1,0.5)
+gama<- c(1,0.3,-.5)
+nu=c(0.1,0.1)
+data<-geraHeckman(x,w,beta,gama,sigma2,rho,nu,type=type)
+y<-data$y
+cc<-data$cc
+# Fit Heckman Normal Stan model
+fit.n_stan <- HeckmanStan(y, x, w, cc, family="Normal", thin = 5, chains = 1, iter = 1000, warmup = 100)
+qoi=c("beta","gamma","sigma_e","sigma2", "rho","EAIC","EBIC")
+print(fit.n_stan[[1]],par=qoi)
+print(fit.n_stan[[2]])
+
+# Plots for stanfit objects : 
+library(rstan)
+plot(fit.n_stan[[1]], pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
+plot(fit.n_stan[[1]], plotfun="hist", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
+plot(fit.n_stan[[1]], plotfun="trace", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
+```
+
+
