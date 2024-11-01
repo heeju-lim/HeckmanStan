@@ -71,10 +71,10 @@ print(fit.n_stan[[2]])
 
 # Plots for stanfit objects : https://mc-stan.org/rstan/reference/stanfit-method-plot.html#:~:text=plotfun.\%20A\%20character\%20string\%20naming\%20the\%20plotting\%20function\%20to\%20apply
 library(rstan)
-plot(fit.n_stan, pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
-plot(fit.n_stan, plotfun="hist", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
-plot(fit.n_stan, plotfun="trace", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
-plot(fit.n_stan, plotfun = "rhat")
+plot(fit.n_stan[[1]], pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
+plot(fit.n_stan[[1]], plotfun="hist", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
+plot(fit.n_stan[[1]], plotfun="trace", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
+plot(fit.n_stan[[1]], plotfun = "rhat")
 
 # Fit Heckman Student-t Stan model
 fit.t_stan <- HeckmanStan(y, x, w, cc, family="T", thin = 5, chains = 1, iter = 10000, warmup = 1000)
@@ -82,10 +82,6 @@ qoi=c("beta","gamma","sigma_e","sigma2", "rho","nu")
 print(fit.t_stan[[1]],par=qoi)
 print(fit.t_stan[[2]])
 
-# Fit Heckman Contaminated Normal Stan model
-fit.cn_stan <- HeckmanStan(y, x, w, cc, family="CN", thin = 5, chains = 1, iter = 10000, warmup = 1000)
-qoi=c("beta","gamma","sigma_e","sigma2", "rho","nu1","nu2")
-print(fit.cn_stan,par=qoi)
 
 ################################################################################
 ## Application: Wage data ##Data used in the OGUNDIMU paper.
@@ -110,14 +106,22 @@ x <- cbind(1,x5,x6)
 w <- cbind(1,x1,x2,x3,x4,x5,x6)
 y <- ifelse(wage>0, log(wage), 0)
 n<-length(cc)
+detach(PSID1976)
+
 library("HeckmanEM")
 #Normal: STAN
 ResN<- HeckmanEM(y, x, w, cc, nu = NULL, family="Normal", error = 1e-05,iter.max = 200, im=TRUE, criteria = TRUE)
 initf1 <- function() {list(beta=ResN$beta, gamma=ResN$gamma,sigma_e=ResN$sigma,rho=ResN$rho)}
-fit.cn_stan <-  HeckmanStan( y, x, w, cc, family="CN", init=initf1, thin = 5, chains = 1, iter = 10000, warmup = 1000)
-print(fit.cn_stan[[1]],par=c("beta","gamma","sigma_e","sigma2", "rho","likel","EAIC","EBIC"))
+fit.n_stan <-  HeckmanStan( y, x, w, cc, family="Normal", init=initf1, thin = 5, chains = 1, iter = 10000, warmup = 1000)
+print(fit.cn_stan[[1]],par=c("beta","gamma","sigma_e","sigma2", "rho","nu1","nu2","likel","EAIC","EBIC"))
 print(fit.cn_stan[[2]])
-detach(PSID1976)
+
+initf2 <- function() {list(beta=ResN$beta, gamma=ResN$gamma,sigma_e=ResN$sigma,rho=ResN$rho, nu1=0.1,nu2=0.1)}
+fit.cn_stan <-  HeckmanStan( y, x, w, cc, family="CN", init=initf2, thin = 5, chains = 1, iter = 10000, warmup = 1000)
+
+initf3 <- function() {list(beta=ResN$beta, gamma=ResN$gamma,sigma_e=ResN$sigma,rho=ResN$rho, nu=3)}
+fit.t_stan <-  HeckmanStan( y, x, w, cc, family="T", init=initf3, thin = 5, chains = 1, iter = 10000, warmup = 1000)
+
 }
 
 }

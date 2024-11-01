@@ -20,9 +20,7 @@ knitr::opts_chunk$set(
 <!--[![CRAN_Status_Badge]()]()-->
 
 
-The Heckman selection model is widely employed in econometric analysis and other social sciences, to address sample selection issues in data modeling. Its fundamental assumption hinges on the normality of error terms in both the outcome and the sample selection equations.
-
-In this work, we explore these selection models using a Bayesian approach facilitated by the Stan software. Our objective is to compare the performance of the normal, Student’s-t and contaminated normal, aiming to address the complexities introduced by non-standard error distributions. 
+The Heckman selection model is widely employed in econometric analysis and other social sciences, to address sample selection issues in data modeling. In this work, we explore these selection models using a Bayesian approach facilitated by the Stan software.
 
 <!--For more information about the model formulation and estimation, please see
 Schumacher, F. L., Lachos, V. H., and Matos, L. A. (2021). Scale mixture of skew‐normal linear mixed models with within‐subject serial dependence. *Statistics in Medicine*. DOI: [10.1002/sim.8870](https://doi.org/10.1002/sim.8870).-->
@@ -37,16 +35,48 @@ You can install HeckmanStan from GitHub with:
 ```r
 remotes::install_github("heeju-lim/HeckmanStan")
 ```
-Or you can install the released version of skewlmm from [CRAN](https://CRAN.R-project.org) with:
+[Available Soon] Or you can install the released version of HeckmanStan from [CRAN](https://CRAN.R-project.org) with:
 ```r
 install.packages("HeckmanStan")
 ```
+## Basic Features HeckmanStan()
+
+The package contains main function named HeckmanStan().
+
+``` r
+Fit <- HeckmanStan(y, x, w, cc, family = "CN", thin = 5, init = "random", chains = 1, iter = 10, warmup = 5)
+```
+
+-   y : A response vector.
+
+-   x : A covariate matrix for the response y.
+
+-   w : A covariate matrix for the missing indicator cc.
+
+-   cc :A missing indicator vector (1=observed, 0=missing) .
+
+-   family: The family to be used (Normal, T or CN).
+
+-   init : Parameters specifies the initial values for model parameters.
+
+-   thin : An Interval at which samples are retained from the MCMC process to reduce autocorrelation.
+
+-   chains : The number of chains to run during the MCMC sampling. Running multiple chains is useful for checking convergence.
+
+-   iter : The total number of iterations for the MCMC sampling, determining how many samples will be drawn.
+
+-   warmup : The number of initial iterations that will be discarded as the algorithm stabilizes before collecting samples.
+
+Fit[[1]] contains the inference of Stan model and EAIC and EBIC.
+
+Fit[[2]] contains the HPC confidence interval and Looic, WAIC, and CPO.
+
 
 ## Example
 
 This is a basic example which shows you how to fit the Heckman Stan Model when data is generated from the normal distribution and fit the Heckmans Stan model using the contaminated normal distribution. 
 
-```{r example1, out.width = '70%', fig.align = "center"}
+```{r example1, out.width = '70%',  fig.align = "center", message=FALSE, warning=FALSE,}
 library(HeckmanStan)
 n<- 100
 w<- cbind(1,rnorm(n),rnorm(n))
@@ -61,7 +91,7 @@ data<-geraHeckman(x,w,beta,gama,sigma2,rho,nu,type=type)
 y<-data$y
 cc<-data$cc
 # Fit Heckman Normal Stan model
-fit.n_stan <- HeckmanStan(y, x, w, cc, family="CN", thin = 5, chains = 1, iter = 1000, warmup = 100)
+fit.n_stan <- HeckmanStan(y, x, w, cc, family="CN", thin = 5, chains = 1, iter = 10000, warmup = 1000)
 qoi=c("beta","gamma","sigma_e","sigma2", "rho","EAIC","EBIC")
 print(fit.n_stan[[1]],par=qoi)
 print(fit.n_stan[[2]])
@@ -72,5 +102,4 @@ plot(fit.n_stan[[1]], pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma
 plot(fit.n_stan[[1]], plotfun="hist", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
 plot(fit.n_stan[[1]], plotfun="trace", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
 ```
-
 
