@@ -8,8 +8,22 @@ Authors@R: c(person(given = "Heeju",family = "Lim", role=c("aut","cre","trl"),
              person(given = "Victor Hugo",family="Lachos Davila", email = "hlachos@uconn.edu", role="aut", comment = c(ORCID = "0000-0002-7239-2459")))
 Maintainer: Heeju Lim <heeju.lim@uconn.edu>
 Description: We explore these selection models using a Bayesian approach facilitated by the Stan software. Our objective is to compare the performance of the normal, Student’s-t and contaminated normal, aiming to address the complexities introduced by non-standard error distributions.
+Depends: R (>= 4.2)
+Imports: 
+  rstan (>= 2.26.23), 
+  StanHeaders (>= 2.26.28), 
+  MASS (>= 7.3-60), 
+  tmvtnorm (>= 1.5), 
+  mvtnorm (>= 1.2-3), 
+  mnormt (>= 2.1.1),
+  methods, 
+  stats,
+  LaplacesDemon (>= 16.1.6),
+  TruncatedNormal (>= 2.2.2),
+  numDeriv (>= 2016.8-1.1)
+URL: https://github.com/heeju-lim/HeckmanStan
+BugReports: https://github.com/heeju-lim/HeckmanStan/issues
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Repository: CRAN
-Date/Publication: 2025-03-07 00:00:00 UTC
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.1
