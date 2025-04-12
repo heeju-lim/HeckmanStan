@@ -1,6 +1,6 @@
 Package: HeckmanStan
 Type: Package
-Title: Heckman-selection models based on Bayesian analysis
+Title: Heckman Selection Models based on Bayesian Analysis
 Version: 0.1.0
 Authors@R: c(person(given = "Heeju",family = "Lim", role=c("aut","cre","trl"),
        	            email="heeju.lim@uconn.edu", comment = c(ORCID = "0000-0002-3741-1626")),
