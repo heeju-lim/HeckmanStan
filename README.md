@@ -12,9 +12,13 @@ Bayesian approach facilitated by the Stan software.
 
 For more information about the model formulation and estimation, please see
 Heeju Lim, Victor E. Lachos, and Victor H. Lachos (2025). Bayesian analysis of flexible Heckman selection models using Hamiltonian Monte Carlo. **. DOI: [arXiv:2510.20942](https://doi.org/10.48550/arXiv.2510.20942)
-You can install the released version of CRAN package from [CRAN](https://cran.r-project.org/web/packages/HeckmanStan/index.html)
 
 For the classical Heckman model estimated via the EM algorithm, see Heeju Lim, José Alejandro Ordoñezb, Antonio Punzoc*, and Victor H. Lachos (2025), Heckman Selection Contaminated Normal Model. [https://doi.org/10.1080/10618600.2025.2576165](https://www.tandfonline.com/doi/full/10.1080/10618600.2025.2576165).
+
+You can install the released version of CRAN package from [CRAN](https://cran.r-project.org/web/packages/HeckmanStan/index.html)
+``` r
+install.packages("HeckmanStan")
+```
 
 You can install HeckmanStan from GitHub with:
 
@@ -22,12 +26,6 @@ You can install HeckmanStan from GitHub with:
 remotes::install_github("heeju-lim/HeckmanStan")
 ```
 
-\[Available Soon\] Or you can install the released version of
-HeckmanStan from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("HeckmanStan")
-```
 
 ## Basic Features HeckmanStan()
 
