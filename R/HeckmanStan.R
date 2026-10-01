@@ -144,6 +144,13 @@ HeckmanStan <- function(y, x, w, cc, family="CN", init="random", thin = 5, chain
                 data =data , init=init,
                 thin = thin, chains = chains, iter = iter, warmup = warmup)
 
+  if((family == "SN" || family == "sn")){
+
+    stan_file <- system.file("stan", "HeckmanCSkewNormal.stan",package = "HeckmanStan")
+    out <- rstan::stan(file=stan_file,
+                data =data , init=init,
+                thin = thin, chains = chains, iter = iter, warmup = warmup)
+
   }
 
   cat('\n')
@@ -176,6 +183,8 @@ HeckmanStan <- function(y, x, w, cc, family="CN", init="random", thin = 5, chain
 # c("EAIC","EBIC")
   dimnames(critFin)<-list(c("Value"),c("Looic", "WAIC","CPO"))
   cat('Model selection criteria\n')
+
+
   cat('----------------------------------------\n')
   print(critFin)
 
