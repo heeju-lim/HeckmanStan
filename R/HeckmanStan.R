@@ -107,7 +107,7 @@ HeckmanStan <- function(y, x, w, cc, family="CN", init="random", thin = 5, chain
   n<-length(cc)
   data = list(N = n, N_y = sum(cc==1), p = ncol(x), q = ncol(w), X = x[cc > 0, ], Z = w, D = cc, y = y[cc > 0])
 
-  if (family != "Normal" && family !="normal" && family !="T" && family !="t" && family !="CN" && family !="cn" ) stop("Family not recognized! Obly families allowed are: \"Normal\", \"T\" and \"CN\".")
+  if (family != "Normal" && family !="normal" && family !="T" && family !="t" && family !="CN" && family !="cn" && family !="SN" && family !="sn" ) stop("Family not recognized! Obly families allowed are: \"Normal\", \"T\", \"CN\" and \"SN\".")
   if(!is.vector(y)) stop("y must be a vector!")
   if(!is.vector(cc)) stop("y must be a vector!")
 
