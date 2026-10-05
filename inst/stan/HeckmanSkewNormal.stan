@@ -244,4 +244,7 @@ generated quantities {
   // E[eps] is not zero: the intercept in beta is shifted by err_mean
   real err_mean = lambda * sqrt(2 / pi());
   real err_sd = sqrt(sigma2 + square(lambda) * (1 - 2 / pi()));
+  real sigma2_marginal = sigma2 + (1 - 2 / pi()) * square(lambda);
+  real rho_marginal = rho * sqrt(sigma2) / sqrt(sigma2_marginal);
+ 
 }
