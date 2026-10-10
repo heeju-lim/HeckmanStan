@@ -128,22 +128,23 @@ HeckmanStan <- function(y, x, w, cc, family="CN", init="random", thin = 5, chain
     paramT <- rbind(paramT, c(param, se, HPDTot))
   }
 
-  dimnames(paramT) <- list(c(pname[1:nsize]),c("Mean", "Sd", " HPD(95%) Lower","Upper Bound"))
+##  dimnames(paramT) <- list(c(pname[1:nsize]),c("Mean", "Sd", " HPD(95%) Lower","Upper Bound"))
 
-#  fit_n <- extract(out, par=c("EAIC","EBIC"))
-  log_lik_n <- loo::extract_log_lik(out, merge_chains = FALSE)
-  loo_n <- loo::loo(log_lik_n)
-  WAIC_n = loo::waic(log_lik_n)
-  critFin<-cbind(loo_n$estimates[[3]],  WAIC_n$estimates[[3]], CPO(out))
+# fit_n <- extract(out, par=c("EAIC","EBIC"))
+##  log_lik_n <- loo::extract_log_lik(out, merge_chains = FALSE)
+##  loo_n <- loo::loo(log_lik_n)
+##  WAIC_n = loo::waic(log_lik_n)
+##  critFin<-cbind(loo_n$estimates[[3]],  WAIC_n$estimates[[3]], CPO(out))
 # critFin<-cbind(mean(fit_n$EAIC), mean(fit_n$EBIC))
 #c("EAIC","EBIC")
-  ll_total <- rowSums(loo::extract_log_lik(out))      # draw별 전체 로그우도
+##  ll_total <- rowSums(loo::extract_log_lik(out))      # draw별 전체 로그우도
 
   #EAIC <- -2 * mean(ll_total) + 2 * nsize
   #EBIC <- -2 * mean(ll_total) + nsize * log()
 
-  dimnames(critFin)<-list(c("Value"),c("Looic", "WAIC","CPO"))
-  output<-list(paramT, critFin)
+##  dimnames(critFin)<-list(c("Value"),c("Looic", "WAIC","CPO"))
+##  output<-list(paramT, critFin)
 
-  return(list(out, output ))
-}
+##  return(list(out, output ))
+  return(out)
+  }
