@@ -59,15 +59,11 @@ functions {
     }
 
     // 2) breakpoints: mode, shoulder, and edge of the shoulder on the "on" side
-    // support of the integrand on both sides of the mode (curvature >= 1 everywhere);
-    // breakpoints outside it are ignored, otherwise a far-away shoulder creates one
-    // very wide panel that 16 nodes cannot resolve (e.g. a, b >> 0 with rho > 0.75)
     real sup_lo = zm - tail_width(fmax(g[1], 0), 1, D);
-    real sup_hi = fmin(b, zm + tail_width(fmax(-g[1], 0), 1, D));
     real zs = a / r;
     real zon = zs - K * s / r;
-    int use_zs = (zs > sup_lo) && (zs < sup_hi);
-    int use_zon = (zon > sup_lo) && (zon < sup_hi);
+    int use_zs = (zs > sup_lo) && (zs < b);
+    int use_zon = (zon > sup_lo) && (zon < b);
     real pL = zm;
     real pR = zm;
     if (use_zs) { pL = fmin(pL, zs); pR = fmax(pR, zs); }
@@ -121,7 +117,7 @@ functions {
   }
 
   // log Phi2(a, b; rho) = log P(Z1 <= a, Z2 <= b), corr(Z1, Z2) = rho.
-  // Fast path (Drezner, 10 nodes) when Phi2 > 1e-6 (then accurate to ~1e-10 relative);
+  // Fast path (Drezner, 10 nodes) when it is accurate to < 1e-8 relative;
   // otherwise the robust log-scale quadrature (16 nodes).
   real log_Phi2(real a0, real b0, real rho, data matrix gl10, data matrix gl16) {
     if (is_nan(a0) || is_nan(b0) || is_nan(rho)) return not_a_number();
@@ -250,4 +246,5 @@ generated quantities {
   real err_sd = sqrt(sigma2 + square(lambda) * (1 - 2 / pi()));
   real sigma2_marginal = sigma2 + (1 - 2 / pi()) * square(lambda);
   real rho_marginal = rho * sqrt(sigma2) / sqrt(sigma2_marginal);
+ 
 }

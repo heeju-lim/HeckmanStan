@@ -1,0 +1,40 @@
+#' @title Panel Study of Income Dynamics 1976 Extract
+#' @description Cross-section data originating from the 1976 Panel Study of Income Dynamics (PSID). The dataset includes demographic and economic characteristics of married women and their husbands, and is commonly used for analyzing female labor force participation.
+#'
+#' @usage data(PSID1976)
+#'
+#' @format A data frame with 753 observations on the following 22 variables.
+#' \describe{
+#'   \item{age}{age of the woman}
+#'   \item{city}{dummy for living in a city}
+#'   \item{college}{dummy for college education (woman)}
+#'   \item{education}{years of education (woman)}
+#'   \item{experience}{years of labor market experience}
+#'   \item{feducation}{father's years of education}
+#'   \item{fincome}{family income in 1,000s}
+#'   \item{hage}{husband's age}
+#'   \item{hcollege}{dummy for husband's college education}
+#'   \item{heducation}{husband's years of education}
+#'   \item{hhours}{husband's weekly working hours}
+#'   \item{hours}{woman's weekly working hours}
+#'   \item{hwage}{husband's log hourly wage}
+#'   \item{meducation}{mother's years of education}
+#'   \item{oldkids}{number of children older than 6}
+#'   \item{participation}{dummy for woman's labor force participation}
+#'   \item{repwage}{replacement wage (predicted wage if not employed)}
+#'   \item{tax}{marginal tax rate}
+#'   \item{unemp}{state unemployment rate}
+#'   \item{wage}{log hourly wage of the woman}
+#'   \item{youngkids}{number of children 6 or younger}
+#' }
+#'
+#' @references
+#' Mroz, T. A. (1987). The sensitivity of an empirical model of married women's hours of work to economic and statistical assumptions. *Econometrica*, 55(4), 765–799.
+#' @docType data
+#' @name PSID1976
+#' @examples
+#'
+#' data(PSID1976)
+#' head(PSID1976)
+#'
+NULL
