@@ -89,7 +89,7 @@ The returned object of class `"HeckmanStan"` contains
   (`fit[[2]][[1]]`), and the model-selection criteria LOOIC, WAIC, CPO,
   EAIC and EBIC (`fit[[2]][[2]]`).
 
-## Example 1: skewed data with selection
+## Example: A Skew-Normal Heckman Selection Model
 
 We simulate $n = 500$ units whose outcome error is **skew-normal**
 ($\lambda = 2$) and correlated with the selection error ($\rho = 0.6$).
