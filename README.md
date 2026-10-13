@@ -190,9 +190,8 @@ stan_dens(fit_sn[[1]], pars = c("gamma"), fill = "#276DC3")
 
 If you use **HeckmanStan**, please cite:
 
-> Lim, H., Lachos, V. E., and Lachos, V. H. (2025). *Bayesian analysis
-> of flexible Heckman selection models using Hamiltonian Monte Carlo.*
-> arXiv:2510.20942. <https://doi.org/10.48550/arXiv.2510.20942>
+> Lim, H., Lachos, V. E., and Lachos, V. H. (2025). Bayesian analysis of heavy-tailed Heckman selection models using Hamiltonian Monte Carlo.
+> *Computational Statistics*  <https://doi.org/10.1007/s00180-026-01717-7>
 
 For the classical (EM-based) contaminated-normal Heckman model:
 
@@ -200,12 +199,4 @@ For the classical (EM-based) contaminated-normal Heckman model:
 > selection contaminated normal model. *Journal of Computational and
 > Graphical Statistics.* <https://doi.org/10.1080/10618600.2025.2576165>
 
-``` bibtex
-@article{lim2025bayesheckman,
-  title   = {Bayesian analysis of flexible Heckman selection models using Hamiltonian Monte Carlo},
-  author  = {Lim, Heeju and Lachos, Victor E. and Lachos, Victor H.},
-  journal = {arXiv preprint arXiv:2510.20942},
-  year    = {2025},
-  doi     = {10.48550/arXiv.2510.20942}
-}
-```
+
