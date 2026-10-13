@@ -2,86 +2,117 @@
 output: github_document
 ---
 
-<!--  README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%",
-  fig.width=6, 
-  fig.height=4
+  collapse  = TRUE,
+  comment   = "#>",
+  fig.path  = "man/figures/README-",
+  fig.align = "center",
+  out.width = "80%",
+  dpi       = 150,
+  cache     = TRUE
 )
 ```
 
 # HeckmanStan
 
-<!--[![CRAN_Status_Badge]()]()-->
+<!-- 로고가 생기면 위 제목을 아래 줄로 바꾸세요:
+# HeckmanStan <img src="man/figures/logo.png" align="right" height="120" alt="" />
+-->
 
+<p align="center">
+  <a href="https://CRAN.R-project.org/package=HeckmanStan"><img src="https://img.shields.io/cran/v/HeckmanStan?style=for-the-badge&logo=r&logoColor=white&label=CRAN&color=276DC3" alt="CRAN version"></a>
+  <a href="https://CRAN.R-project.org/package=HeckmanStan"><img src="https://img.shields.io/cran/l/HeckmanStan?style=for-the-badge&color=4c9a2a" alt="License"></a>
+</p>
 
-The Heckman selection model is widely employed in econometric analysis and other social sciences, to address sample selection issues in data modeling. In this work, we explore these selection models using a Bayesian approach facilitated by the Stan software.
+<p align="center">
+  <a href="https://CRAN.R-project.org/package=HeckmanStan"><img src="https://cranlogs.r-pkg.org/badges/grand-total/HeckmanStan?color=276DC3" alt="Total downloads"></a>
+  <a href="https://mc-stan.org"><img src="https://img.shields.io/badge/powered%20by-Stan-B2001D?logo=stan&logoColor=white" alt="Powered by Stan"></a>
+  <a href="https://github.com/heeju-lim/HeckmanStan"><img src="https://img.shields.io/github/stars/heeju-lim/HeckmanStan?style=social" alt="GitHub stars"></a>
+</p>
 
-<!--For more information about the model formulation and estimation, please see
-Schumacher, F. L., Lachos, V. H., and Matos, L. A. (2021). Scale mixture of skew‐normal linear mixed models with within‐subject serial dependence. *Statistics in Medicine*. DOI: [10.1002/sim.8870](https://doi.org/10.1002/sim.8870).-->
+**HeckmanStan** fits Heckman sample-selection models in a fully Bayesian way
+with Hamiltonian Monte Carlo ([Stan](https://mc-stan.org)). Besides the
+classical normal model, it offers three flexible error distributions that
+cope with heavy tails, outliers and skewness:
+
+| `family`   | Error distribution   | Extra parameters | Good for                         |
+|:-----------|:---------------------|:-----------------|:---------------------------------|
+| `"Normal"` | Bivariate normal     | –                | Classical Heckman model          |
+| `"T"`      | Student-*t*          | `nu`             | Heavy tails                      |
+| `"CN"`     | Contaminated normal  | `nu1`, `nu2`     | Outliers / contamination         |
+| `"SN"`     | Skew-normal          | `lambda`         | Asymmetric (skewed) outcomes     |
+
+Every fit returns posterior means, standard deviations and 95% HPD intervals,
+together with model-comparison criteria (**LOOIC**, **WAIC**, **CPO**,
+**EAIC**, **EBIC**), so the families can be compared on the same data.
 
 ## Installation
 
-<!-- You can install the released version of lmmsmsn from [CRAN](https://CRAN.R-project.org) with: -->
+<p>
+  <a href="https://CRAN.R-project.org/package=HeckmanStan"><img src="https://img.shields.io/badge/Install%20from-CRAN-276DC3?style=flat-square&logo=r&logoColor=white" alt="Install from CRAN"></a>
+  <a href="https://github.com/heeju-lim/HeckmanStan"><img src="https://img.shields.io/badge/Install%20from-GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="Install from GitHub"></a>
+</p>
 
-
-You can install HeckmanStan from GitHub with:
-
-```r
-remotes::install_github("heeju-lim/HeckmanStan")
-```
-[Available Soon] Or you can install the released version of HeckmanStan from [CRAN](https://CRAN.R-project.org) with:
-```r
-install.packages("HeckmanStan")
-```
-## Basic Features HeckmanStan()
-
-The package contains main function named HeckmanStan().
+Released version from [CRAN](https://CRAN.R-project.org/package=HeckmanStan):
 
 ``` r
-Fit <- HeckmanStan(y, x, w, cc, family = "CN", thin = 5, init = "random", chains = 1, iter = 10, warmup = 5)
+install.packages("HeckmanStan")
 ```
 
--   y : A response vector.
+Development version from [GitHub](https://github.com/heeju-lim/HeckmanStan):
 
--   x : A covariate matrix for the response y.
-
--   w : A covariate matrix for the missing indicator cc.
-
--   cc :A missing indicator vector (1=observed, 0=missing) .
-
--   family: The family to be used (Normal, T, CN or SN).
-
--   init : Parameters specifies the initial values for model parameters.
-
--   thin : An Interval at which samples are retained from the MCMC process to reduce autocorrelation.
-
--   chains : The number of chains to run during the MCMC sampling. Running multiple chains is useful for checking convergence.
-
--   iter : The total number of iterations for the MCMC sampling, determining how many samples will be drawn.
-
--   warmup : The number of initial iterations that will be discarded as the algorithm stabilizes before collecting samples.
-
-Fit[[1]] contains the inference of Stan model and EAIC and EBIC.
-
-Fit[[2]] contains the HPC confidence interval and Looic, WAIC, and CPO.
+``` r
+# install.packages("remotes")
+remotes::install_github("heeju-lim/HeckmanStan")
+```
 
 
-## Example
 
-This is a basic example which shows you how to fit the Heckman Stan Model when data is generated from the normal distribution and fit the Heckmans Stan model using the contaminated normal distribution. 
+## Main function: `HeckmanStan()`
 
-```{r example1, out.width = '70%',  fig.align = "center", message=FALSE, warning=FALSE,}
+``` r
+fit <- HeckmanStan(y, x, w, cc, family = "SN",
+                   init = "random", thin = 5, chains = 1,
+                   iter = 10000, warmup = 1000)
+```
+
+| Argument | Description |
+|:---------|:------------|
+| `y`      | Response vector (values for `cc == 0` are ignored). |
+| `x`      | Covariate matrix of the outcome equation. |
+| `w`      | Covariate matrix of the selection equation. |
+| `cc`     | Selection indicator (`1` = observed, `0` = missing). |
+| `family` | `"Normal"`, `"T"`, `"CN"` or `"SN"`. |
+| `init`   | Initial values (`"random"` or a list, as in `rstan::stan()`). |
+| `thin`   | Thinning interval of the MCMC draws. |
+| `chains` | Number of Markov chains. |
+| `iter`   | Total iterations per chain (including warm-up). |
+| `warmup` | Warm-up (burn-in) iterations per chain. |
+
+The returned object of class `"HeckmanStan"` contains
+
+- `fit[[1]]` – the `stanfit` object: posterior summaries and convergence
+  diagnostics (`n_eff`, `Rhat`) of all parameters.
+- `fit[[2]]` – posterior mean, SD and 95% HPD interval of each parameter
+  (`fit[[2]][[1]]`), and the model-selection criteria LOOIC, WAIC, CPO,
+  EAIC and EBIC (`fit[[2]][[2]]`).
+  
+  
+## Example 1: skewed data with selection
+
+We simulate $n = 500$ units whose outcome error is **skew-normal**
+($\lambda = 2$) and correlated with the selection error ($\rho = 0.6$).
+
+```{r simulate}
 library(HeckmanStan)
+set.seed(2025)
 n<- 100
 w<- cbind(1,rnorm(n),rnorm(n))
 x<- cbind(w[,1:2])
-type="CN"
+type="Normal"
 sigma2<- 1
 rho<-0.7
 beta<- c(1,0.5)
@@ -90,16 +121,60 @@ nu=c(0.1,0.1)
 data<-geraHeckman(x,w,beta,gama,sigma2,rho,nu,family=type)
 y<-data$y
 cc<-data$cc
-# Fit Heckman Normal Stan model
-fit.n_stan <- HeckmanStan(y, x, w, cc, family="CN", thin = 5, chains = 1, iter = 10000, warmup = 1000)
-qoi=c("beta","gamma","sigma_e","sigma2", "rho","EAIC","EBIC")
-print(fit.n_stan[[1]],par=qoi)
-print(fit.n_stan[[2]])
-
-# Plots for stanfit objects : 
-library(rstan)
-plot(fit.n_stan[[1]], pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
-plot(fit.n_stan[[1]], plotfun="hist", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
-plot(fit.n_stan[[1]], plotfun="trace", pars=c("beta[1]","beta[2]", "gamma[1]", "gamma[2]", "gamma[3]", "rho", "sigma_e"))
 ```
 
+
+### Fit the skew-normal Heckman model
+
+```{r fit-sn, results = "hide", message = FALSE, warning = FALSE}
+fit_sn <- HeckmanStan(y, x, w, cc, family = "SN",
+                      thin = 2, chains = 1, iter = 1000, warmup = 500)
+```
+
+```{r print-sn}
+print(fit_sn[[1]], pars = c("beta", "gamma", "rho", "sigma", "lambda")) 
+fit_sn[[2]]
+```
+
+The posterior recovers the true values
+($\beta = (1, 0.5)$, $\gamma = (0.5, 0.3, -0.5)$, $\rho = 0.6$, $\sigma = 1$,
+$\lambda = 2$).
+
+### Diagnostics and plots
+
+`fit$stanfit` is a regular `stanfit` object, so all **rstan** tools work.
+
+```{r plots-sn, fig.width = 7, fig.height = 4, message = FALSE}
+library(rstan)
+qoi <- c("beta", "gamma", "rho", "sigma", "lambda")
+
+stan_plot(fit_sn[[1]], pars = qoi, show_density = TRUE, fill_color = "#276DC3")
+stan_trace(fit_sn[[1]], pars = c("beta"))
+stan_dens(fit_sn[[1]], pars = c("gamma"), fill = "#276DC3")
+```
+
+
+## Citation
+
+If you use **HeckmanStan**, please cite:
+
+> Lim, H., Lachos, V. E., and Lachos, V. H. (2025).
+> *Bayesian analysis of flexible Heckman selection models using Hamiltonian Monte Carlo.*
+> arXiv:2510.20942. <https://doi.org/10.48550/arXiv.2510.20942>
+
+For the classical (EM-based) contaminated-normal Heckman model:
+
+> Lim, H., Ordoñez, J. A., Punzo, A., and Lachos, V. H. (2025).
+> Heckman selection contaminated normal model.
+> *Journal of Computational and Graphical Statistics.*
+> <https://doi.org/10.1080/10618600.2025.2576165>
+
+``` bibtex
+@article{lim2025bayesheckman,
+  title   = {Bayesian analysis of flexible Heckman selection models using Hamiltonian Monte Carlo},
+  author  = {Lim, Heeju and Lachos, Victor E. and Lachos, Victor H.},
+  journal = {arXiv preprint arXiv:2510.20942},
+  year    = {2025},
+  doi     = {10.48550/arXiv.2510.20942}
+}
+```
