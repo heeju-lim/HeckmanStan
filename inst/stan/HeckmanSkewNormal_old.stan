@@ -8,7 +8,7 @@ data {
   matrix[N_y, p] X;
   matrix[N, q] Z;
   // responses
-  int<lower=0, upper=1> D[N];
+  array[N] int<lower=0, upper=1> D;
   vector[N_y] y;
 }
 parameters {

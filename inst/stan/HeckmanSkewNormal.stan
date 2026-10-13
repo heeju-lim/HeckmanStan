@@ -245,6 +245,11 @@ generated quantities {
                                         omega, auxmt, auxkt, Omega11, rhoaaux,
                                         gl10, gl16);
   real log_lik_total = sum(log_lik);
+  real likel = log_lik_total;  // same name as in the other models
+  // number of parameters: beta (p), gamma (q), rho, sigma, lambda
+  // posterior mean of EAIC / EBIC = -2 E[log L] + penalty
+  real EAIC = -2 * likel + 2 * (p + q + 3);
+  real EBIC = -2 * likel + log(N) * (p + q + 3);
   // E[eps] is not zero: the intercept in beta is shifted by err_mean
   real err_mean = lambda * sqrt(2 / pi());
   real err_sd = sqrt(sigma2 + square(lambda) * (1 - 2 / pi()));

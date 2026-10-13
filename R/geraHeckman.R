@@ -8,8 +8,8 @@
 #' @param gamma Values for the gamma vector.
 #' @param sigma2 Value for the variance.
 #' @param rho Value for the dependence between the response and missing value.
-#' @param nu When using the t- distribution, the initial value for the degrees of freedom.
-#' @param family The distribution family to be used (Normal, T, or CN).
+#' @param nu Extra parameter: degrees of freedom (T, SL), c(nu1, nu2) (CN), or the skewness parameter lambda (SN).
+#' @param family The distribution family to be used ("Normal", "T", "CN", "SN", "SL" or "La").
 #' @return Return an object with the response (y) and missing values (cc).
 #'
 #' @examples
@@ -61,6 +61,15 @@ resp<- cbind(x%*%beta,w%*%gamma)+ errorTerms
 if(family=="La"){#Laplace
   Sigma<- matrix(c(sigma2, rhoa, rhoa, 1 ), ncol = 2)
   errorTerms<- mvtnorm::rmvnorm(n, c( 0, 0 ), Sigma)*sqrt(rgamma(n,1.5,0.125))
+  resp<- cbind(x%*%beta,w%*%gamma)+ errorTerms
+}
+
+if(family=="SN"){#Skew-Normal (as in HeckmanSkewNormal.stan)
+  # outcome error = sqrt(sigma2)*e1 + lambda*|T0|, selection error = e2,
+  # (e1, e2) standard bivariate normal with corr rho, T0 ~ N(0,1) independent; lambda = nu
+  Sigma<- matrix(c(1, rho, rho, 1 ), ncol = 2)
+  e<- mvtnorm::rmvnorm(n, c( 0, 0 ), Sigma)
+  errorTerms<- cbind(sqrt(sigma2)*e[,1] + nu[1]*abs(rnorm(n)), e[,2])
   resp<- cbind(x%*%beta,w%*%gamma)+ errorTerms
 }
 

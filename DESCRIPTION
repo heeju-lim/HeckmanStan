@@ -1,17 +1,17 @@
 Package: HeckmanStan
 Type: Package
 Title: Heckman Selection Models Based on Bayesian Analysis
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
   person("Heeju", "Lim", email = "heeju.lim@uconn.edu", role = c("aut", "cre")),
   person("Victor E.", "Lachos", email = "elachoso27@gmail.com", role = c("aut")),
   person("Victor H.", "Lachos", email = "hlachos@uconn.edu", role = c("aut")))
 Maintainer: Heeju Lim <heeju.lim@uconn.edu> 
-Description: Implements Heckman selection models using a Bayesian approach via 'Stan' and compares the performance of normal, Student’s t, and contaminated normal distributions in addressing complexities and selection bias (Heeju Lim, Victor E. Lachos, and Victor H. Lachos, Bayesian analysis of flexible Heckman selection models using Hamiltonian Monte Carlo, 2025, under submission).
+Description: Implements Heckman selection models using a Bayesian approach via 'Stan' and compares the performance of normal, Student’s t, contaminated normal and skew-normal distributions in addressing complexities and selection bias (Heeju Lim, Victor E. Lachos, and Victor H. Lachos, Bayesian analysis of flexible Heckman selection models using Hamiltonian Monte Carlo, 2025, under submission).
 Imports: 
     rstan (>= 2.26.23), 
     mvtnorm (>= 1.2-3), 
-    loo,
+    loo (>= 2.4.0),
     stats
 License: GPL-3
 Encoding: UTF-8
