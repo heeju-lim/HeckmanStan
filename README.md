@@ -111,7 +111,7 @@ y<-data$y
 cc<-data$cc
 ```
 
-### Fit the skew-normal Heckman model
+### Fit the skew-normal Heckman model (fewer iterations)
 
 ``` r
 fit_sn <- HeckmanStan(y, x, w, cc, family = "SN",
