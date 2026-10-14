@@ -91,8 +91,7 @@ The returned object of class `"HeckmanStan"` contains
 
 ## Example: A Skew-Normal Heckman Selection Model
 
-We simulate $n = 500$ units whose outcome error is **skew-normal**
-($\lambda = 2$) and correlated with the selection error ($\rho = 0.7$).
+We simulate $n = 100$ units whose outcome error is **skew-normal** and correlated with the selection error ($\rho = 0.7$).
 
 ``` r
 library(HeckmanStan)
@@ -156,9 +155,6 @@ fit_sn[[2]]
 #>           EAIC     EBIC    LOOIC     WAIC       CPO
 #> Value 1780.507 1814.223 1772.906 1772.736 -886.3456
 ```
-
-The posterior recovers the true values ($\beta = (1, 0.5)$,
-$\gamma = (0.5, 0.3, -0.5)$, $\rho = 0.7$, $\sigma = 1$, $\lambda = 2$).
 
 ### Diagnostics and plots
 
