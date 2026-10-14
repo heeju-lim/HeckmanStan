@@ -189,6 +189,9 @@ If you use **HeckmanStan**, please cite:
 > Lim, H., Lachos, V. E., and Lachos, V. H. (2025). Bayesian analysis of heavy-tailed Heckman selection models using Hamiltonian Monte Carlo.
 > *Computational Statistics*  <https://doi.org/10.1007/s00180-026-01717-7>
 
+For the skew-normal Heckman model (SLsn):
+Ordoñez, J. A., Lim, H., and Lachos, V. H. (2026). A skew-normal Heckman selection model: Characterization, Bayesian estimation, and applications. Manuscript in preparation.
+
 For the classical (EM-based) contaminated-normal Heckman model:
 
 > Lim, H., Ordoñez, J. A., Punzo, A., and Lachos, V. H. (2025). Heckman
