@@ -90,7 +90,7 @@ HeckmanStan <- function(y, x, w, cc, family="CN", init="random", thin = 1, chain
                       Normal = "HeckmanNormal.stan",
                       T      = "HeckmanT.stan",
                       CN     = "HeckmanCNormal.stan",
-                      SN     = "HeckmanSkewNormal.stan")
+                      SN     = "HeckmanSkewNormal_centered.stan")
   stan_file <- system.file("stan", stan_name, package = "HeckmanStan")
   out <- rstan::stan(file = stan_file, data = data, init = init,
                      thin = thin, chains = chains, iter = iter, warmup = warmup, ...)
